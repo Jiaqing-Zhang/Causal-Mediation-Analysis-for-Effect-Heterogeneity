@@ -1,0 +1,61 @@
+---
+title: "Causal Mediation Analysis for Heterogeneous Effect"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Causal Mediation Analysis for Heterogeneous Effect}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(hetero.mediation)
+```
+
+# Binary Mediator and Binary Outcome
+
+## Fit the mediator model using logistic regression
+```{r}
+model.m.binary <-glm(wave_II_exercise ~ neighbor_poverty*urbanity, data = smoke, weights = weight, family=quasibinomial(link='logit'))
+```
+
+
+
+
+## Fit the outcome model using log-linear with percentage of smoke is 33.7%
+```{r}
+model.y.binary <- glm(ysmoke ~  neighbor_poverty * wave_II_exercise + neighbor_poverty * urbanity + wave_II_exercise * urbanity, data = smoke, weights = weight, family=poisson(link='log'))
+```
+
+## Causal Mediation Analysis for Heterogeneous Effect 
+```{r}
+hetero.mediate(model.m.binary, model.y.binary, treat = 'neighbor_poverty', modifier = 'urbanity', mediator = 'wave_II_exercise', n = 2579, conf.level = 0.95, yreg = 'logistic', mreg = 'logistic')
+```
+
+# Continuous Mediator and Binary Outcome
+
+## Fit the mediator model using linear regression
+```{r}
+model.m.conti <-lm(wave_II_friend_drug ~ neighbor_poverty*urbanity, data = smoke, weights = weight)
+```
+
+## Fit the outcome model using logistic regression
+```{r}
+model.y.binary2 <- glm(ysmoke ~  neighbor_poverty * wave_II_friend_drug + 
+                         neighbor_poverty * urbanity + wave_II_friend_drug * urbanity, data = smoke, weights = weight, 
+                       family=quasibinomial(link='logit'))
+```
+
+## Causal Mediation Analysis for Heterogeneous Effect 
+```{r}
+hetero.mediate(model.m.conti, model.y.binary2, treat = 'neighbor_poverty', modifier = 'urbanity', 
+               mediator = 'wave_II_friend_drug', n = 2579, conf.level = 0.95, yreg = 'logistic', mreg = 'linear')
+```
+
+

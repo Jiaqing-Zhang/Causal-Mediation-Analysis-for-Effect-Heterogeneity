@@ -1,0 +1,17 @@
+Package: hetero.mediation
+Title: Causal Mediation Analysis for Causal Heterogeneous Effect
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Jiaqing",
+           family = "Zhang",
+           role = c("aut", "cre"),
+           email = "jz2585@columbia.edu")
+Description: This package is for the estimation of various causal heterogeneous effects for causal mediation analysis, including natural direct and indirect effect heterogeneity, pure direct and indirect effect heterogeneity, mediated interactive effect heterogeneity, controlled direct effect heterogeneity, and total effect heterogeneity. 
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
+License: MIT + file LICENSE
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
